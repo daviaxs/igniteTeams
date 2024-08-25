@@ -3,6 +3,7 @@ import { Container, Form } from "./styles";
 import { Highlight } from "@components/highlight";
 import { ButtonIcon } from "@components/button-icon";
 import { Input } from "@components/input";
+import { Filter } from "@components/filter";
 
 export function Players() {
   return (
@@ -24,6 +25,8 @@ export function Players() {
           icon="add"
         />
       </Form>
+
+      <Filter title="Time a" isActive />
     </Container>
   )
 }
