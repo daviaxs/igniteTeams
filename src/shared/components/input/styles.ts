@@ -17,8 +17,4 @@ export const InputStyle = styled(TextInput).attrs(({theme}) => ({
 
   border-radius: 8px;
   padding: 16px;
-
-  &::placeholder {
-    color: ${({theme}) => theme.COLORS.GRAY_300};
-  }
 `
