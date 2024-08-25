@@ -1,13 +1,14 @@
-import { Header } from '@components/header';
-import { Container } from './styles';
-import { Highlight } from '@components/highlight';
-import { GroupCard } from '@components/group-card';
-import { useState } from 'react';
-import { FlatList } from 'react-native';
-import { ListEmpty } from '@components/list-empty';
+import { Header } from '@components/header'
+import { Container } from './styles'
+import { Highlight } from '@components/highlight'
+import { GroupCard } from '@components/group-card'
+import { useState } from 'react'
+import { FlatList } from 'react-native'
+import { ListEmpty } from '@components/list-empty'
+import { Button } from '@components/button'
 
 export function Groups() {
-  const [groups, setGroups] = useState<string[]>([]);
+  const [groups, setGroups] = useState<string[]>([])
 
   return (
     <Container>
@@ -26,6 +27,8 @@ export function Groups() {
           <GroupCard title={item} />
         )}
       />
+
+      <Button title='Criar nova turma' variant='destructive' style={{ marginTop: 16 }} />
     </Container>
   );
 }
