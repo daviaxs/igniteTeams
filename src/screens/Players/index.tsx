@@ -9,10 +9,18 @@ import { FlatList } from "react-native"
 import { PlayerCard } from "@components/player-card"
 import { ListEmpty } from "@components/list-empty"
 import { Button } from "@components/button"
+import { useRoute } from "@react-navigation/native"
+
+type RouteParams = {
+  groupName: string
+}
 
 export function Players() {
   const [team, setTeam] = useState('Time a')
   const [players, setPlayers] = useState<string[]>(['Davi', "henrique", "matheus"])
+
+  const route = useRoute();
+  const { groupName } = route.params as RouteParams;
 
   function handleRemovePlayer(index: number) {
     const newPlayers = players.filter((_, i) => i !== index)
@@ -24,7 +32,7 @@ export function Players() {
       <Header showBackButton />
 
       <Highlight
-        title="Nome da turma"
+        title={groupName}
         subtitle="Adicione a galera e separe os times"
       />
 
@@ -62,8 +70,8 @@ export function Players() {
         data={players}
         keyExtractor={(_, index) => String(index)}
         showsVerticalScrollIndicator={false}
-        renderItem={({item, index}) => (
-          <PlayerCard 
+        renderItem={({ item, index }) => (
+          <PlayerCard
             name={item}
             onRemove={() => handleRemovePlayer(index)}
           />
@@ -73,8 +81,8 @@ export function Players() {
         )}
         contentContainerStyle={
           [
-            {paddingBottom: 100},
-            players.length === 0 && {flex: 1}
+            { paddingBottom: 100 },
+            players.length === 0 && { flex: 1 }
           ]
         }
       />
