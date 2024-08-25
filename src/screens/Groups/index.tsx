@@ -20,6 +20,7 @@ export function Groups() {
         data={groups}
         keyExtractor={(_, index) => String(index)}
         contentContainerStyle={groups.length === 0 && { flex: 1 }}
+        showsHorizontalScrollIndicator={false}
         ListEmptyComponent={() => (
           <ListEmpty message='Não há turmas cadastradas.' />
         )}
