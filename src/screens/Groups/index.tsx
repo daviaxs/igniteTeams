@@ -28,7 +28,7 @@ export function Groups() {
         )}
       />
 
-      <Button title='Criar nova turma' variant='destructive' style={{ marginTop: 16 }} />
+      <Button title='Criar nova turma' style={{ marginTop: 16 }} />
     </Container>
   );
 }
