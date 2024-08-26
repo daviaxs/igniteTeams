@@ -4,15 +4,14 @@ import { Highlight } from "@components/highlight"
 import { ButtonIcon } from "@components/button-icon"
 import { Input } from "@components/input"
 import { Filter } from "@components/filter"
-import { useEffect, useState } from "react"
-import { Alert, FlatList } from "react-native"
+import { useEffect, useRef, useState } from "react"
+import { Alert, FlatList, TextInput } from "react-native"
 import { PlayerCard } from "@components/player-card"
 import { ListEmpty } from "@components/list-empty"
 import { Button } from "@components/button"
 import { useRoute } from "@react-navigation/native"
 import { appError } from "@utils/appError"
 import { playerAddByGroup } from "@storage/players/playerAddByGroup"
-import { playersGetByGroup } from "@storage/players/playersGetByGroup"
 import { PlayerStorageDTO } from "@storage/players/playerStorageDTO"
 import { playersGetByGroupAndTeam } from "@storage/players/playersGetByGroupAndTeam"
 
@@ -24,6 +23,8 @@ export function Players() {
   const [newPlayerName, setNewPlayerName] = useState('')
   const [team, setTeam] = useState('Time a')
   const [players, setPlayers] = useState<PlayerStorageDTO[]>([])
+
+  const newPlayerNameInputRef = useRef<TextInput>(null)
 
   const route = useRoute()
   const { groupName } = route.params as RouteParams
@@ -43,6 +44,7 @@ export function Players() {
 
       fetchPlayersByTeam()
 
+      newPlayerNameInputRef.current?.blur()
       setNewPlayerName('')
 
       Alert.alert('Adicionar pessoa', 'Pessoa adicionada com sucesso.')
@@ -84,10 +86,13 @@ export function Players() {
 
       <Form>
         <Input
+          inputRef={newPlayerNameInputRef}
           placeholder="Nome da pessoa"
           onChangeText={setNewPlayerName}
           value={newPlayerName}
           autoCorrect={false}
+          onSubmitEditing={handleAddPlayer}
+          returnKeyType="done"
         />
 
         <ButtonIcon
