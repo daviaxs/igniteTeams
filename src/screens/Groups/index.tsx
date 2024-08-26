@@ -26,10 +26,11 @@ export function Groups() {
 
       const data = await groupsGetAll()
       setGroups(data)
-
-      setIsLoading(false)
+      
     } catch (error) {
       Alert.alert('Erro', 'Erro ao buscar turmas.')
+    } finally {
+      setIsLoading(false)
     }
   }
 

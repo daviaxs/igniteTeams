@@ -68,10 +68,11 @@ export function Players() {
 
       const playersByTeam = await playersGetByGroupAndTeam(groupName, team)
       setPlayers(playersByTeam)
-      
-      setIsLoading(false)
+
     } catch (error) {
       Alert.alert('Erro', 'Erro ao buscar pessoas do time.')
+    } finally {
+      setIsLoading(false)
     }
   }
 
