@@ -27,6 +27,10 @@ export function Groups() {
     }
   }
 
+  function handleOpenGroup(group: string) {
+    navigation.navigate('players', { groupName: group })
+  }
+
   useFocusEffect(useCallback(() => {
     fetchGroups()
   }, []))
@@ -46,7 +50,7 @@ export function Groups() {
           <ListEmpty message='Não há turmas cadastradas.' />
         )}
         renderItem={({ item }) => (
-          <GroupCard title={item} />
+          <GroupCard title={item} onPress={() => handleOpenGroup(item)}/>
         )}
       />
 
