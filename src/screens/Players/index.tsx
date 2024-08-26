@@ -4,7 +4,7 @@ import { Highlight } from "@components/highlight"
 import { ButtonIcon } from "@components/button-icon"
 import { Input } from "@components/input"
 import { Filter } from "@components/filter"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Alert, FlatList } from "react-native"
 import { PlayerCard } from "@components/player-card"
 import { ListEmpty } from "@components/list-empty"
@@ -40,6 +40,12 @@ export function Players() {
 
     try {
       await playerAddByGroup(newPlayer, groupName)
+
+      fetchPlayersByTeam()
+
+      setNewPlayerName('')
+
+      Alert.alert('Adicionar pessoa', 'Pessoa adicionada com sucesso.')
     } catch (error) {
       if (error instanceof appError) {
         Alert.alert('Adicionar pessoa', error.message)
@@ -63,6 +69,10 @@ export function Players() {
     setPlayers(newPlayers)
   }
 
+  useEffect(() => {
+    fetchPlayersByTeam()
+  }, [team])
+
   return (
     <Container>
       <Header showBackButton />
@@ -76,6 +86,7 @@ export function Players() {
         <Input
           placeholder="Nome da pessoa"
           onChangeText={setNewPlayerName}
+          value={newPlayerName}
           autoCorrect={false}
         />
 
