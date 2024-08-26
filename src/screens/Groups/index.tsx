@@ -3,7 +3,7 @@ import { Container } from './styles'
 import { Highlight } from '@components/highlight'
 import { GroupCard } from '@components/group-card'
 import { useCallback, useState } from 'react'
-import { FlatList } from 'react-native'
+import { Alert, FlatList } from 'react-native'
 import { ListEmpty } from '@components/list-empty'
 import { Button } from '@components/button'
 import { useFocusEffect, useNavigation } from '@react-navigation/native'
@@ -23,7 +23,7 @@ export function Groups() {
       const data = await groupsGetAll()
       setGroups(data)
     } catch (error) {
-      throw error
+      Alert.alert('Erro', 'Erro ao buscar turmas.')
     }
   }
 
