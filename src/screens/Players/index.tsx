@@ -9,12 +9,13 @@ import { Alert, FlatList, TextInput } from "react-native"
 import { PlayerCard } from "@components/player-card"
 import { ListEmpty } from "@components/list-empty"
 import { Button } from "@components/button"
-import { useRoute } from "@react-navigation/native"
+import { useNavigation, useRoute } from "@react-navigation/native"
 import { appError } from "@utils/appError"
 import { playerAddByGroup } from "@storage/players/playerAddByGroup"
 import { PlayerStorageDTO } from "@storage/players/playerStorageDTO"
 import { playersGetByGroupAndTeam } from "@storage/players/playersGetByGroupAndTeam"
 import { PlayerRemoveByGroup } from "@storage/players/playerRemoveByGroup"
+import { groupDeleteByName } from "@storage/groups/groupDeleteByName"
 
 type RouteParams = {
   groupName: string
@@ -27,6 +28,7 @@ export function Players() {
 
   const newPlayerNameInputRef = useRef<TextInput>(null)
 
+  const navigation = useNavigation()
   const route = useRoute()
   const { groupName } = route.params as RouteParams
 
@@ -75,6 +77,27 @@ export function Players() {
     } catch (error) {
       Alert.alert('Erro', 'Erro ao remover pessoa do time.')
     }
+  }
+
+  async function groupDelete() {
+    try {
+      await groupDeleteByName(groupName)
+      navigation.navigate('groups')
+
+    } catch (error) {
+      Alert.alert('Erro', 'Erro ao remover turma.')
+    }
+  }
+
+  async function handleDeleteGroup() {
+    Alert.alert(
+      'Remover',
+      'Deseja realmente remover a turma?',
+      [
+        { text: 'Não', style: 'cancel' },
+        { text: 'Sim', onPress: () => groupDelete() }
+      ]
+    )
   }
 
   useEffect(() => {
@@ -147,7 +170,7 @@ export function Players() {
         }
       />
 
-      <Button title="Remover turma" variant="destructive" />
+      <Button title="Remover turma" variant="destructive" onPress={handleDeleteGroup} />
     </Container>
   )
 }
