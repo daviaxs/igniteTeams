@@ -13,6 +13,8 @@ import { useRoute } from "@react-navigation/native"
 import { appError } from "@utils/appError"
 import { playerAddByGroup } from "@storage/players/playerAddByGroup"
 import { playersGetByGroup } from "@storage/players/playersGetByGroup"
+import { PlayerStorageDTO } from "@storage/players/playerStorageDTO"
+import { playersGetByGroupAndTeam } from "@storage/players/playersGetByGroupAndTeam"
 
 type RouteParams = {
   groupName: string
@@ -21,7 +23,7 @@ type RouteParams = {
 export function Players() {
   const [newPlayerName, setNewPlayerName] = useState('')
   const [team, setTeam] = useState('Time a')
-  const [players, setPlayers] = useState<string[]>([])
+  const [players, setPlayers] = useState<PlayerStorageDTO[]>([])
 
   const route = useRoute()
   const { groupName } = route.params as RouteParams
@@ -38,16 +40,21 @@ export function Players() {
 
     try {
       await playerAddByGroup(newPlayer, groupName)
-
-      const players = await playersGetByGroup(groupName)
-
-      console.log(players)
     } catch (error) {
       if (error instanceof appError) {
         Alert.alert('Adicionar pessoa', error.message)
       } else {
         Alert.alert('Erro', 'Erro ao adicionar pessoa ao time.')
       }
+    }
+  }
+
+  async function fetchPlayersByTeam() {
+    try {
+      const playersByTeam = await playersGetByGroupAndTeam(groupName, team)
+      setPlayers(playersByTeam)
+    } catch (error) {
+      Alert.alert('Erro', 'Erro ao buscar pessoas do time.')
     }
   }
 
@@ -103,7 +110,7 @@ export function Players() {
         showsVerticalScrollIndicator={false}
         renderItem={({ item, index }) => (
           <PlayerCard
-            name={item}
+            name={item.name}
             onRemove={() => handleRemovePlayer(index)}
           />
         )}
